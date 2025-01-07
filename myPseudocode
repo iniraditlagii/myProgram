@@ -1,0 +1,76 @@
+START
+    DECLARE ArrayLists: noPelanggan, namaPelanggan, alamatPelanggan, kodeSimpanan, jumlahDp, totalBunga
+    DECLARE boolean isRunning = true
+    DECLARE BufferedReader br for input
+
+    PRINT "Header Program Koperasi Simpan Pinjam"
+    PRINT daftar menu awal (Simpanan & Pinjaman)
+
+    WHILE isRunning DO
+        CALL showMenu()
+
+    FUNCTION showMenu()
+        PRINT menu utama
+        READ user input (selectedMenu)
+        
+        SWITCH selectedMenu
+            CASE 1: CALL showAllPelanggan()
+            CASE 2: CALL inputPelanggan()
+            CASE 3: CALL editPelanggan()
+            CASE 4: CALL deletePelanggan()
+            CASE 5: 
+                SET isRunning = false
+                PRINT "Program dihentikan"
+            DEFAULT:
+                PRINT "Menu tidak valid"
+
+    FUNCTION showAllPelanggan()
+        DECLARE scanner for user input
+        DECLARE page = 1, recordsPerPage = 3
+        COMPUTE totalPages based on size of noPelanggan
+        
+        WHILE true DO
+            DISPLAY table header for customer data
+            IF noPelanggan is empty THEN
+                PRINT "Data Pelanggan Tidak Tersedia"
+                RETURN
+            
+            COMPUTE start and end index for current page
+            ITERATE through noPelanggan from start to end
+                COMPUTE totalSimpanan for each customer
+                DISPLAY customer data
+            END ITERATION
+
+            PROMPT user for navigation (next, back, or exit)
+            UPDATE page number based on input or EXIT loop
+            
+    FUNCTION inputPelanggan()
+        DECLARE boolean berjalan = true
+        WHILE berjalan DO
+            PROMPT user to input customer data
+            COMPUTE bunga based on jumlahDp
+            ADD customer data to respective ArrayLists
+            PROMPT user to continue or exit
+
+    FUNCTION editPelanggan()
+        CALL showAllPelanggan()
+        PROMPT user to select customer index to edit
+        IF index is valid THEN
+            PROMPT user for updated customer data
+            UPDATE respective ArrayLists
+            PRINT "Data berhasil diubah"
+        ELSE
+            PRINT "Data tidak ditemukan"
+
+    FUNCTION deletePelanggan()
+        CALL showAllPelanggan()
+        PROMPT user to select customer index to delete
+        IF index is valid THEN
+            REMOVE customer data from respective ArrayLists
+            PRINT "Data berhasil dihapus"
+        ELSE
+            PRINT "Data tidak ditemukan"
+
+    FUNCTION getSimpanan(kode)
+        RETURN "Simpanan" IF kode == 1 ELSE RETURN "Pinjaman"
+END
